@@ -1,0 +1,1 @@
+AI has recently been popularized in the dermatology and cosmetics industry as dermatology tools and online services have begun to rely on AI and machine learning to detect skin acne, eczema, cancers, and other conditions. We want to test the bias of AI models with their performance on different skin tones and accuracy of different skin conditions. 
