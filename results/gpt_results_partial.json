@@ -1,0 +1,288 @@
+[
+  {
+    "image_id": "AIDS-48.jpg",
+    "image_filename": "AIDS-48.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Herpes HPV and other STDs Photos/AIDS-48.jpg",
+    "ground_truth_label": "Herpes HPV",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:30:45.311168+00:00",
+    "api_response": {
+      "classification": "Eczema",
+      "confidence": "high",
+      "reasoning": "The image shows significant scaling and crusting on the facial skin, which are characteristic features of eczema. The distribution and appearance suggest a chronic inflammatory skin condition, often associated with dry skin and itching.",
+      "key_features": [
+        "scaling",
+        "crusting",
+        "inflammation",
+        "dryness",
+        "facial involvement"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Eczema\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows significant scaling and crusting on the facial skin, which are characteristic features of eczema. The distribution and appearance suggest a chronic inflammatory skin condition, often associated with dry skin and itching.\",\n    \"key_features\": [\"scaling\", \"crusting\", \"inflammation\", \"dryness\", \"facial involvement\"]\n}\n```",
+    "normalized_prediction": "Eczema",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 4226.44,
+    "api_cost_usd": 0.000189,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "9IMG013.jpg",
+    "image_filename": "9IMG013.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Atopic Dermatitis Photos/9IMG013.jpg",
+    "ground_truth_label": "Atopic Dermatitis",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:30:50.313638+00:00",
+    "api_response": {
+      "classification": "Lupus",
+      "confidence": "high",
+      "reasoning": "The image shows erythematous lesions around the eyes, which is characteristic of the butterfly rash associated with systemic lupus erythematosus. This condition often presents with facial rashes that can be exacerbated by sunlight.",
+      "key_features": [
+        "erythematous lesions",
+        "butterfly rash distribution",
+        "involvement around the eyes"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Lupus\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows erythematous lesions around the eyes, which is characteristic of the butterfly rash associated with systemic lupus erythematosus. This condition often presents with facial rashes that can be exacerbated by sunlight.\",\n    \"key_features\": [\"erythematous lesions\", \"butterfly rash distribution\", \"involvement around the eyes\"]\n}\n```",
+    "normalized_prediction": "Lupus",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 2996.76,
+    "api_cost_usd": 0.000191,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "seborrheic-dermatitis-80.jpg",
+    "image_filename": "seborrheic-dermatitis-80.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Psoriasis pictures Lichen Planus and related diseases/seborrheic-dermatitis-80.jpg",
+    "ground_truth_label": "Psoriasis",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:30:55.936896+00:00",
+    "api_response": {
+      "classification": "Eczema",
+      "confidence": "high",
+      "reasoning": "The image shows dry, flaky skin with redness and possible fissuring, which are characteristic features of eczema. This condition often presents in areas prone to moisture and friction, such as the ear.",
+      "key_features": [
+        "dryness",
+        "flaking",
+        "redness",
+        "fissuring",
+        "location in a skin fold"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Eczema\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows dry, flaky skin with redness and possible fissuring, which are characteristic features of eczema. This condition often presents in areas prone to moisture and friction, such as the ear.\",\n    \"key_features\": [\"dryness\", \"flaking\", \"redness\", \"fissuring\", \"location in a skin fold\"]\n}\n```",
+    "normalized_prediction": "Eczema",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 3617.65,
+    "api_cost_usd": 0.00019,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "rosacea-nose-38.jpg",
+    "image_filename": "rosacea-nose-38.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Acne and Rosacea Photos/rosacea-nose-38.jpg",
+    "ground_truth_label": "Acne",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:31:01.818863+00:00",
+    "api_response": {
+      "classification": "Actinic Carcinoma",
+      "confidence": "high",
+      "reasoning": "The image shows a lesion on the nose with irregular borders and a scaly, crusted surface, which are characteristic features of actinic keratosis, a precursor to actinic carcinoma. The location on sun-exposed skin and the appearance suggest a potential malignancy.",
+      "key_features": [
+        "irregular borders",
+        "scaly crusted surface",
+        "location on sun-exposed skin",
+        "redness around the lesion"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Actinic Carcinoma\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows a lesion on the nose with irregular borders and a scaly, crusted surface, which are characteristic features of actinic keratosis, a precursor to actinic carcinoma. The location on sun-exposed skin and the appearance suggest a potential malignancy.\",\n    \"key_features\": [\"irregular borders\", \"scaly crusted surface\", \"location on sun-exposed skin\", \"redness around the lesion\"]\n}\n```",
+    "normalized_prediction": "Actinic Carcinoma",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 3875.76,
+    "api_cost_usd": 0.0002,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "26birtHogDube1122042.jpg",
+    "image_filename": "26birtHogDube1122042.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Systemic Disease/26birtHogDube1122042.jpg",
+    "ground_truth_label": "Systemic Disease",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:31:08.331949+00:00",
+    "api_response": {
+      "classification": "Eczema",
+      "confidence": "medium",
+      "reasoning": "The image shows dry, red patches of skin that may indicate eczema, characterized by inflammation and irritation. The distribution and appearance suggest a chronic condition, often associated with itchiness and sensitivity.",
+      "key_features": [
+        "dry patches",
+        "redness",
+        "irritation",
+        "possible scaling",
+        "location on the face"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Eczema\",\n    \"confidence\": \"medium\",\n    \"reasoning\": \"The image shows dry, red patches of skin that may indicate eczema, characterized by inflammation and irritation. The distribution and appearance suggest a chronic condition, often associated with itchiness and sensitivity.\",\n    \"key_features\": [\"dry patches\", \"redness\", \"irritation\", \"possible scaling\", \"location on the face\"]\n}\n```",
+    "normalized_prediction": "Eczema",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 4509.33,
+    "api_cost_usd": 0.00019,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "05atopicFace1003051.jpg",
+    "image_filename": "05atopicFace1003051.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Atopic Dermatitis Photos/05atopicFace1003051.jpg",
+    "ground_truth_label": "Atopic Dermatitis",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:31:42.739130+00:00",
+    "api_response": {
+      "classification": "Eczema",
+      "confidence": "high",
+      "reasoning": "The image shows erythematous patches with crusting and scaling, which are characteristic of eczema, particularly in infants. The distribution on the cheeks and around the mouth is typical for atopic dermatitis, a common form of eczema in young children.",
+      "key_features": [
+        "erythematous patches",
+        "crusting",
+        "scaling",
+        "location on cheeks and mouth",
+        "infant age"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Eczema\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows erythematous patches with crusting and scaling, which are characteristic of eczema, particularly in infants. The distribution on the cheeks and around the mouth is typical for atopic dermatitis, a common form of eczema in young children.\",\n    \"key_features\": [\"erythematous patches\", \"crusting\", \"scaling\", \"location on cheeks and mouth\", \"infant age\"]\n}\n```",
+    "normalized_prediction": "Eczema",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 4399.83,
+    "api_cost_usd": 0.000197,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "basal-cell-carcinoma-nose-27.jpg",
+    "image_filename": "basal-cell-carcinoma-nose-27.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions/basal-cell-carcinoma-nose-27.jpg",
+    "ground_truth_label": "Actinic Carcinoma",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:31:48.363598+00:00",
+    "api_response": {
+      "classification": "Benign Tumors",
+      "confidence": "medium",
+      "reasoning": "The image shows a lesion with a central keratin plug and a raised appearance, which is characteristic of a benign tumor such as a sebaceous cyst or epidermoid cyst. These types of lesions are typically non-cancerous and can appear in various locations on the skin.",
+      "key_features": [
+        "central keratin plug",
+        "raised appearance",
+        "smooth surface",
+        "surrounding skin appears normal"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Benign Tumors\",\n    \"confidence\": \"medium\",\n    \"reasoning\": \"The image shows a lesion with a central keratin plug and a raised appearance, which is characteristic of a benign tumor such as a sebaceous cyst or epidermoid cyst. These types of lesions are typically non-cancerous and can appear in various locations on the skin.\",\n    \"key_features\": [\"central keratin plug\", \"raised appearance\", \"smooth surface\", \"surrounding skin appears normal\"]\n}\n```",
+    "normalized_prediction": "Benign Tumors",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 3622.26,
+    "api_cost_usd": 0.000202,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "actinic-cheilitis-sq-cell-lip-6.jpg",
+    "image_filename": "actinic-cheilitis-sq-cell-lip-6.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions/actinic-cheilitis-sq-cell-lip-6.jpg",
+    "ground_truth_label": "Actinic Carcinoma",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:31:53.118872+00:00",
+    "api_response": {
+      "classification": "Eczema",
+      "confidence": "high",
+      "reasoning": "The image shows dry, red, and inflamed skin around the mouth, which is characteristic of eczema. The presence of scaling and fissuring suggests a chronic inflammatory condition often triggered by irritants or allergens.",
+      "key_features": [
+        "redness",
+        "dryness",
+        "scaling",
+        "fissures",
+        "inflammation"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Eczema\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows dry, red, and inflamed skin around the mouth, which is characteristic of eczema. The presence of scaling and fissuring suggests a chronic inflammatory condition often triggered by irritants or allergens.\",\n    \"key_features\": [\"redness\", \"dryness\", \"scaling\", \"fissures\", \"inflammation\"]\n}\n```",
+    "normalized_prediction": "Eczema",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 2749.14,
+    "api_cost_usd": 0.000187,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "rosacea-29.jpg",
+    "image_filename": "rosacea-29.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Acne and Rosacea Photos/rosacea-29.jpg",
+    "ground_truth_label": "Acne",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:31:58.094305+00:00",
+    "api_response": {
+      "classification": "Acne",
+      "confidence": "high",
+      "reasoning": "The image shows multiple small, inflamed lesions on the skin, which are characteristic of acne. These lesions are typically caused by clogged pores and can present as papules or pustules.",
+      "key_features": [
+        "inflamed lesions",
+        "papules",
+        "pustules",
+        "localized redness",
+        "presence of comedones"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Acne\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows multiple small, inflamed lesions on the skin, which are characteristic of acne. These lesions are typically caused by clogged pores and can present as papules or pustules.\",\n    \"key_features\": [\"inflamed lesions\", \"papules\", \"pustules\", \"localized redness\", \"presence of comedones\"]\n}\n```",
+    "normalized_prediction": "Acne",
+    "predicted_subtype": "other",
+    "is_correct": true,
+    "processing_time_ms": 2969.32,
+    "api_cost_usd": 0.000188,
+    "success": true,
+    "error": null
+  },
+  {
+    "image_id": "sebaceous-adenoma-5.jpg",
+    "image_filename": "sebaceous-adenoma-5.jpg",
+    "image_path": "/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Systemic Disease/sebaceous-adenoma-5.jpg",
+    "ground_truth_label": "Systemic Disease",
+    "ground_truth_subtype": "other",
+    "model": "gpt-4o-mini",
+    "timestamp": "2025-10-26T15:32:05.366467+00:00",
+    "api_response": {
+      "classification": "Benign Tumors",
+      "confidence": "high",
+      "reasoning": "The image shows raised, nodular lesions on the skin, which are characteristic of benign tumors such as seborrheic keratosis or dermatofibromas. These lesions are typically non-cancerous and can appear as skin tags or growths, often found in older individuals.",
+      "key_features": [
+        "raised nodules",
+        "flesh-colored or slightly pigmented",
+        "irregular surface texture",
+        "location on the nose",
+        "presence of multiple lesions"
+      ]
+    },
+    "full_raw_response": "```json\n{\n    \"classification\": \"Benign Tumors\",\n    \"confidence\": \"high\",\n    \"reasoning\": \"The image shows raised, nodular lesions on the skin, which are characteristic of benign tumors such as seborrheic keratosis or dermatofibromas. These lesions are typically non-cancerous and can appear as skin tags or growths, often found in older individuals.\",\n    \"key_features\": [\"raised nodules\", \"flesh-colored or slightly pigmented\", \"irregular surface texture\", \"location on the nose\", \"presence of multiple lesions\"]\n}\n```",
+    "normalized_prediction": "Benign Tumors",
+    "predicted_subtype": "other",
+    "is_correct": false,
+    "processing_time_ms": 5266.05,
+    "api_cost_usd": 0.000202,
+    "success": true,
+    "error": null
+  }
+]

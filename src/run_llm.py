@@ -3,6 +3,8 @@ import base64
 import pandas as pd
 import random
 import time
+import json
+from datetime import datetime, timezone
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -41,80 +43,166 @@ def encode_image(image_path: str) -> str:
     with open(image_path, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
-def classify_image(image_path: str, max_retries: int = 3) -> str:
+def classify_image(image_path: str, ground_truth_data: dict, max_retries: int = 3) -> dict:
     """Send image to GPT-4o-mini with classification prompt."""
-    base64_img = encode_image(image_path)
+    start_time = time.time()
+    
+    try:
+        base64_img = encode_image(image_path)
+        if not base64_img:
+            return create_error_result(ground_truth_data, "Failed to encode image")
 
-    prompt = """
-You are an expert dermatologist analyzing skin condition images. Your task is to determine whether the image shows acne or a non-acne condition.
+        prompt = f"""
+You are an expert dermatologist analyzing skin condition images.
 
-Analyze the image carefully and classify it into ONE of the following categories:
-
-ACNE TYPES:
-- Comedonal acne (blackheads and whiteheads)
-- Papular acne (small red bumps without pus)
-- Pustular acne (pus-filled pimples with white/yellow centers)
-- Nodular acne (large, painful lumps beneath the skin)
-- Cystic acne (deep, painful, pus-filled cysts)
-- Acne conglobata (severe, interconnected lesions)
-
-NON-ACNE:
-- Not acne (if the condition is not acne, such as rosacea, eczema, dermatitis, or other skin conditions)
+Classify the following skin image into exactly ONE of these 20 conditions:
+{", ".join(CONDITIONS)}
 
 Provide your response in the following JSON format:
-{
-    "classification": "the category from the list above",
+{{
+    "classification": "the exact condition name from the list above",
     "confidence": "high/medium/low",
     "reasoning": "brief medical explanation for your classification (2-3 sentences)",
     "key_features": ["list", "of", "specific", "visual", "features", "observed"]
-}
+}}
 
-Consider these diagnostic criteria:
-- Comedones (blackheads/whiteheads) indicate comedonal acne
-- Pustules with inflammation indicate pustular acne
-- Deep nodules or cysts indicate severe acne
-- Facial redness without comedones may indicate rosacea (not acne)
-- Symmetrical rash patterns may indicate dermatitis (not acne)
-    """
+Important:
+- Choose the EXACT condition name from the list above
+- Be specific and precise with the condition name
+- Consider all visual features carefully
+- Provide a clear medical reasoning for your choice
+        """
 
-    for attempt in range(max_retries):
-        try:
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",  # can swap for claude/other later
-                messages=[
-                    {"role": "system", "content": "You are a dermatologist AI."},
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {
-                                "type": "image_url",
-                                "image_url": {"url": f"data:image/jpeg;base64,{base64_img}"}
-                            }
-                        ]
+        for attempt in range(max_retries):
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": "You are a dermatologist AI."},
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": prompt},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {"url": f"data:image/jpeg;base64,{base64_img}"}
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens=500,
+                    temperature=0.1,
+                )
+
+                processing_time = (time.time() - start_time) * 1000
+                raw_response = response.choices[0].message.content.strip()
+                
+                # Clean up the response - remove markdown formatting
+                import re
+                import json
+                
+                try:
+                    # Remove markdown code blocks if present
+                    cleaned_response = re.sub(r'```json\s*|\s*```', '', raw_response)
+                    
+                    # Try to parse as JSON
+                    json_match = re.search(r'\{.*\}', cleaned_response, re.DOTALL)
+                    if json_match:
+                        api_response = json.loads(json_match.group())
+                    else:
+                        # Fallback: create structured response
+                        api_response = {
+                            "classification": raw_response.strip(),
+                            "confidence": "medium",
+                            "reasoning": "Unable to parse structured response",
+                            "key_features": []
+                        }
+                except json.JSONDecodeError:
+                    api_response = {
+                        "classification": raw_response.strip(),
+                        "confidence": "medium",
+                        "reasoning": "Unable to parse JSON response",
+                        "key_features": []
                     }
-                ],
-                max_tokens=500,
-            )
-
-            return response.choices[0].message.content.strip()
-            
-        except Exception as e:
-            error_msg = str(e)
-            if "429" in error_msg or "quota" in error_msg.lower():
-                if attempt < max_retries - 1:
-                    wait_time = (2 ** attempt) * 60  # 1min, 2min, 4min
-                    print(f"Rate limit hit. Waiting {wait_time} seconds before retry {attempt + 1}/{max_retries}")
-                    time.sleep(wait_time)
-                    continue
+                
+                # Extract prediction
+                predicted_label = api_response.get('classification', raw_response)
+                
+                # Determine if prediction is correct
+                is_correct = (predicted_label == ground_truth_data['condition'])
+                
+                # Calculate approximate cost (GPT-4o-mini pricing)
+                estimated_input_tokens = 1000  # Approximate for image + prompt
+                estimated_output_tokens = len(raw_response.split()) * 1.3
+                api_cost_usd = (estimated_input_tokens * 0.15 + estimated_output_tokens * 0.60) / 1000000
+                
+                # Create result dictionary matching Claude format
+                result = {
+                    "image_id": ground_truth_data.get('image_id', ''),
+                    "image_filename": ground_truth_data.get('image_id', ''),
+                    "image_path": image_path,
+                    "ground_truth_label": ground_truth_data['condition'],
+                    "ground_truth_subtype": "other",  # We don't have subtypes in metadata.csv
+                    "model": "gpt-4o-mini",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "api_response": api_response,
+                    "full_raw_response": raw_response,
+                    "normalized_prediction": predicted_label,
+                    "predicted_subtype": "other",
+                    "is_correct": bool(is_correct),
+                    "processing_time_ms": round(processing_time, 2),
+                    "api_cost_usd": round(api_cost_usd, 6),
+                    "success": True,
+                    "error": None
+                }
+                
+                return result
+                
+            except Exception as e:
+                error_msg = str(e)
+                if "429" in error_msg or "quota" in error_msg.lower():
+                    if attempt < max_retries - 1:
+                        wait_time = (2 ** attempt) * 60
+                        print(f"Rate limit hit. Waiting {wait_time} seconds before retry {attempt + 1}/{max_retries}")
+                        time.sleep(wait_time)
+                        continue
+                    else:
+                        print(f"Max retries reached. Quota exceeded.")
+                        processing_time = (time.time() - start_time) * 1000
+                        return create_error_result(ground_truth_data, "API quota exceeded", processing_time)
                 else:
-                    print(f"Max retries reached. Quota exceeded.")
-                    return "QUOTA_EXCEEDED"
-            else:
-                # For other errors, don't retry
-                raise e
+                    raise e
+        
+        # If we get here, all retries failed
+        processing_time = (time.time() - start_time) * 1000
+        return create_error_result(ground_truth_data, "All retries failed", processing_time)
+        
+    except Exception as e:
+        processing_time = (time.time() - start_time) * 1000
+        return create_error_result(ground_truth_data, str(e), processing_time)
+
+def create_error_result(ground_truth_data: dict, error_message: str, processing_time: float = 0) -> dict:
+    """Create an error result dictionary matching Claude format."""
+    from datetime import datetime, timezone
     
-    return "ERROR"
+    return {
+        "image_id": ground_truth_data.get('image_id', ''),
+        "image_filename": ground_truth_data.get('image_id', ''),
+        "image_path": ground_truth_data.get('path', ''),
+        "ground_truth_label": ground_truth_data.get('condition', ''),
+        "ground_truth_subtype": "other",
+        "model": "gpt-4o-mini",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "api_response": None,
+        "full_raw_response": None,
+        "normalized_prediction": None,
+        "predicted_subtype": None,
+        "is_correct": False,
+        "processing_time_ms": round(processing_time, 2),
+        "api_cost_usd": 0.0,
+        "success": False,
+        "error": error_message
+    }
 
 def main():
     print("🔬 GPT Skin Classification with Smart Batching")
@@ -179,32 +267,34 @@ def main():
         # Check if file exists
         if not os.path.exists(img_path):
             print(f"❌ File not found: {img_path}")
-            pred = "FILE_NOT_FOUND"
+            result = create_error_result(row.to_dict(), "Image file not found")
+            failed += 1
         else:
             try:
-                pred = classify_image(img_path)
-                if pred == "QUOTA_EXCEEDED":
-                    print("⚠️  Quota exceeded. Stopping.")
-                    break
-                elif pred != "ERROR":
+                # Pass row data to classify_image
+                result = classify_image(img_path, row.to_dict())
+                
+                if result["success"]:
                     successful += 1
-                    print(f"✅ Prediction: {pred}")
-                    print(f"Correct: {pred == true_label}")
+                    print(f"✅ Prediction: {result['normalized_prediction']}")
+                    print(f"Correct: {result['is_correct']}")
+                    print(f"Time: {result['processing_time_ms']}ms")
+                    print(f"Cost: ${result['api_cost_usd']:.6f}")
                 else:
-                    print(f"❌ Classification error")
+                    print(f"❌ Error: {result['error']}")
+                    failed += 1
+                    
+                    if result.get('error') == "API quota exceeded":
+                        print("⚠️  Quota exceeded. Stopping.")
+                        results.append(result)
+                        break
+                        
             except Exception as e:
                 print(f"❌ Error: {e}")
-                pred = "ERROR"
+                result = create_error_result(row.to_dict(), str(e))
+                failed += 1
 
-        results.append({
-            "image_id": row["image_id"],
-            "true_label": true_label,
-            "predicted_label": pred,
-            "path": img_path,
-            "success": pred not in ["ERROR", "FILE_NOT_FOUND", "QUOTA_EXCEEDED"],
-            "is_correct": pred == true_label and pred not in ["ERROR", "FILE_NOT_FOUND", "QUOTA_EXCEEDED"],
-            "error": None if pred not in ["ERROR", "FILE_NOT_FOUND", "QUOTA_EXCEEDED"] else pred
-        })
+        results.append(result)
         
         # Small delay between individual requests within batch
         if i % batch_size != 0 and i < sample_size:
@@ -212,15 +302,35 @@ def main():
         
         # Save intermediate results every batch
         if i % batch_size == 0:
-            results_df = pd.DataFrame(results)
             os.makedirs("results", exist_ok=True)
-            results_df.to_csv("results/predictions_partial.csv", index=False)
+            with open("results/gpt_results_partial.json", 'w') as f:
+                json.dump(results, f, indent=2)
             print(f"💾 Saved intermediate results ({i} images processed)")
 
     # Save final results
-    results_df = pd.DataFrame(results)
     os.makedirs("results", exist_ok=True)
-    results_df.to_csv("results/predictions.csv", index=False)
+    
+    # Save detailed JSON (matching Claude format)
+    with open("results/gpt_classification_results.json", 'w') as f:
+        json.dump(results, f, indent=2)
+    
+    # Save simple CSV for compatibility
+    csv_results = []
+    for r in results:
+        csv_results.append({
+            "image_id": r["image_id"],
+            "true_label": r["ground_truth_label"],
+            "predicted_label": r["normalized_prediction"],
+            "path": r["image_path"],
+            "success": r["success"],
+            "is_correct": r["is_correct"],
+            "processing_time_ms": r["processing_time_ms"],
+            "api_cost_usd": r["api_cost_usd"],
+            "error": r["error"]
+        })
+    
+    csv_df = pd.DataFrame(csv_results)
+    csv_df.to_csv("results/predictions.csv", index=False)
     
     # Summary
     print(f"\n" + "=" * 50)
@@ -228,13 +338,21 @@ def main():
     print("=" * 50)
     print(f"Processed: {len(results)} images")
     print(f"Successful: {successful}")
+    print(f"Failed: {failed}")
+    
     if successful > 0:
-        correct = sum(1 for r in results if r['predicted_label'] == r['true_label'] and r['predicted_label'] not in ['ERROR', 'FILE_NOT_FOUND', 'QUOTA_EXCEEDED'])
+        correct = sum(1 for r in results if r['is_correct'])
         accuracy = (correct / successful) * 100
         print(f"Accuracy: {accuracy:.1f}% ({correct}/{successful})")
+        
+        total_cost = sum(r['api_cost_usd'] for r in results if r['success'])
+        print(f"Total API cost: ${total_cost:.6f}")
     
-    print(f"💾 Results saved to: results/predictions.csv")
-    print(f"📊 Analyze results: python src/analyze_gpt_results.py --csv results/predictions.csv")
+    print(f"\n💾 Results saved to:")
+    print(f"  - results/gpt_classification_results.json (detailed, Claude-compatible)")
+    print(f"  - results/predictions.csv (simple CSV)")
+    print(f"\n📊 Analyze results:")
+    print(f"  python src/analyze_gpt_results.py --results results/gpt_classification_results.json")
 
 if __name__ == "__main__":
     main()
