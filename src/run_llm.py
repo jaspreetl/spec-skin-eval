@@ -45,11 +45,36 @@ def classify_image(image_path: str, max_retries: int = 3) -> str:
     """Send image to GPT-4o-mini with classification prompt."""
     base64_img = encode_image(image_path)
 
-    prompt = f"""
-    You are an expert dermatologist. 
-    Classify the following skin image into exactly one of these 20 conditions:
-    {", ".join(CONDITIONS)}.
-    Respond with only the condition name.
+    prompt = """
+You are an expert dermatologist analyzing skin condition images. Your task is to determine whether the image shows acne or a non-acne condition.
+
+Analyze the image carefully and classify it into ONE of the following categories:
+
+ACNE TYPES:
+- Comedonal acne (blackheads and whiteheads)
+- Papular acne (small red bumps without pus)
+- Pustular acne (pus-filled pimples with white/yellow centers)
+- Nodular acne (large, painful lumps beneath the skin)
+- Cystic acne (deep, painful, pus-filled cysts)
+- Acne conglobata (severe, interconnected lesions)
+
+NON-ACNE:
+- Not acne (if the condition is not acne, such as rosacea, eczema, dermatitis, or other skin conditions)
+
+Provide your response in the following JSON format:
+{
+    "classification": "the category from the list above",
+    "confidence": "high/medium/low",
+    "reasoning": "brief medical explanation for your classification (2-3 sentences)",
+    "key_features": ["list", "of", "specific", "visual", "features", "observed"]
+}
+
+Consider these diagnostic criteria:
+- Comedones (blackheads/whiteheads) indicate comedonal acne
+- Pustules with inflammation indicate pustular acne
+- Deep nodules or cysts indicate severe acne
+- Facial redness without comedones may indicate rosacea (not acne)
+- Symmetrical rash patterns may indicate dermatitis (not acne)
     """
 
     for attempt in range(max_retries):
@@ -69,7 +94,7 @@ def classify_image(image_path: str, max_retries: int = 3) -> str:
                         ]
                     }
                 ],
-                max_tokens=20,
+                max_tokens=500,
             )
 
             return response.choices[0].message.content.strip()
@@ -92,8 +117,8 @@ def classify_image(image_path: str, max_retries: int = 3) -> str:
     return "ERROR"
 
 def main():
-    print("🔬 GPT Skin Classification")
-    print("=" * 40)
+    print("🔬 GPT Skin Classification with Smart Batching")
+    print("=" * 50)
     
     # Load metadata
     print("Loading metadata...")
@@ -112,17 +137,41 @@ def main():
     except (ValueError, KeyboardInterrupt):
         sample_size = 20
     
-    print(f"Processing {sample_size} images...")
+    # Smart batching configuration
+    batch_size = 5  # Process 5 images per batch
+    batch_delay = 30  # Wait 30 seconds between batches
+    
+    print(f"\n🧠 Smart Batching Configuration:")
+    print(f"  • Total images: {sample_size}")
+    print(f"  • Batch size: {batch_size} images")
+    print(f"  • Delay between batches: {batch_delay} seconds")
+    print(f"  • Estimated total time: {((sample_size // batch_size) * batch_delay) / 60:.1f} minutes")
+    
+    confirm = input(f"\nContinue with batched processing? (y/n): ").lower().strip()
+    if confirm != 'y':
+        print("Processing cancelled.")
+        return
     
     # Sample images
     sample_df = df.sample(n=sample_size, random_state=42)
 
     results = []
     successful = 0
+    batch_count = 0
+    
+    print(f"\n🚀 Starting batched classification...")
+    print("=" * 50)
     
     for i, (_, row) in enumerate(sample_df.iterrows(), 1):
         true_label = row["condition"]
         img_path = row["path"]
+        
+        # Check if we need to start a new batch
+        if (i - 1) % batch_size == 0 and i > 1:
+            batch_count += 1
+            print(f"\n⏸️  Batch {batch_count} complete. Waiting {batch_delay}s to respect rate limits...")
+            time.sleep(batch_delay)
+            print(f"🔄 Starting batch {batch_count + 1}...")
         
         print(f"\n[{i}/{sample_size}] {os.path.basename(img_path)}")
         print(f"Ground truth: {true_label}")
@@ -157,18 +206,26 @@ def main():
             "error": None if pred not in ["ERROR", "FILE_NOT_FOUND", "QUOTA_EXCEEDED"] else pred
         })
         
-        # Small delay between requests
-        if i < sample_size:
-            time.sleep(1)
+        # Small delay between individual requests within batch
+        if i % batch_size != 0 and i < sample_size:
+            time.sleep(2)  # 2 second delay between images in same batch
+        
+        # Save intermediate results every batch
+        if i % batch_size == 0:
+            results_df = pd.DataFrame(results)
+            os.makedirs("results", exist_ok=True)
+            results_df.to_csv("results/predictions_partial.csv", index=False)
+            print(f"💾 Saved intermediate results ({i} images processed)")
 
-    # Save results
+    # Save final results
     results_df = pd.DataFrame(results)
     os.makedirs("results", exist_ok=True)
     results_df.to_csv("results/predictions.csv", index=False)
     
     # Summary
-    print(f"\n" + "=" * 40)
-    print(f"📊 SUMMARY")
+    print(f"\n" + "=" * 50)
+    print(f"📊 FINAL SUMMARY")
+    print("=" * 50)
     print(f"Processed: {len(results)} images")
     print(f"Successful: {successful}")
     if successful > 0:
@@ -177,6 +234,7 @@ def main():
         print(f"Accuracy: {accuracy:.1f}% ({correct}/{successful})")
     
     print(f"💾 Results saved to: results/predictions.csv")
+    print(f"📊 Analyze results: python src/analyze_gpt_results.py --csv results/predictions.csv")
 
 if __name__ == "__main__":
     main()

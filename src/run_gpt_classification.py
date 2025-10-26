@@ -30,7 +30,7 @@ def main():
     classifier = GPTSkinClassifier(api_key=api_key)
     
     # Paths
-    ground_truth_csv = "balanced_dataset/ground_truth_labels.csv"
+    ground_truth_csv = "data/metadata.csv"
     output_file = "gpt_classification_results.json"
     
     # Check if ground truth file exists

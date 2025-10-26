@@ -1,0 +1,164 @@
+image_id,true_label,predicted_label,path,success,is_correct,error
+AIDS-48.jpg,Herpes HPV,"{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image suggests a condition that features extensive scaling and erythema, indicating a possible allergic or irritant contact dermatitis rather than acne. The presence of significant white lesions and the lack of comedones or typical acne features support this classification."",
+    ""key_features"": [""scaling"", ""erythema"", ""lack of comedones"", ""asymmetrical distribution""]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Herpes HPV and other STDs Photos/AIDS-48.jpg,True,False,
+9IMG013.jpg,Atopic Dermatitis,"{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The presence of facial redness and no visible comedones or pustules suggests a non-acne condition. This presentation may be indicative of rosacea or another dermatitis rather than any type of acne."",
+    ""key_features"": [""facial redness"", ""swelling around the eyes"", ""absence of comedones or pustules"", ""symmetrical rash pattern""]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Atopic Dermatitis Photos/9IMG013.jpg,True,False,
+seborrheic-dermatitis-80.jpg,Psoriasis,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image depicts dry, flaky skin with redness, which is more indicative of a dermatitis or eczema condition rather than acne. There are no comedones, papules, or pustules present."",
+    ""key_features"": [""dry, flaky skin"", ""redness"", ""absence of comedones"", ""location around the ear""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Psoriasis pictures Lichen Planus and related diseases/seborrheic-dermatitis-80.jpg,True,False,
+rosacea-nose-38.jpg,Acne,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The visual features observed suggest a non-acne condition, likely related to rosacea or dermatitis, characterized by facial redness and swelling without the presence of comedones or typical acne lesions. The inflammation and texture imply an underlying inflammatory skin condition rather than typical acne."",
+    ""key_features"": [""facial redness"", ""swelling"", ""no comedones"", ""rough texture"", ""location around nose""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Acne and Rosacea Photos/rosacea-nose-38.jpg,True,False,
+26birtHogDube1122042.jpg,Systemic Disease,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows redness and small bumps without visible comedones, resembling symptoms often associated with dermatitis rather than acne. There are no pus-filled lesions or deeper nodules present."",
+    ""key_features"": [""redness"", ""small bumps"", ""absence of comedones"", ""location near the ear""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Systemic Disease/26birtHogDube1122042.jpg,True,False,
+05atopicFace1003051.jpg,Atopic Dermatitis,"```json
+{
+    ""classification"": ""Papular acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows small red bumps on the skin, which are characteristic of papular acne. These lesions lack pus and are inflamed, indicating an acne type but not severe. The distribution on the face suggests a typical location for acne."",
+    ""key_features"": [
+        ""small red bumps"",
+        ""inflammation"",
+        ""absence of pus"",
+        ""location on the cheeks"",
+        ""youthful skin""
+    ]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Atopic Dermatitis Photos/05atopicFace1003051.jpg,True,False,
+basal-cell-carcinoma-nose-27.jpg,Actinic Carcinoma,"```json
+{
+    ""classification"": ""Pustular acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows a lesion with a distinct white core indicative of pus, surrounded by inflamed skin. This strongly suggests a pustular acne condition."",
+    ""key_features"": [""pus-filled center"", ""surrounding inflammation"", ""raised lesion structure""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions/basal-cell-carcinoma-nose-27.jpg,True,False,
+actinic-cheilitis-sq-cell-lip-6.jpg,Actinic Carcinoma,"{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows areas of redness and dryness around the mouth, which is characteristic of dermatitis or other non-acne skin conditions rather than acne. There are no visible comedones, pustules, or nodules associated with acne."",
+    ""key_features"": [""facial redness"", ""dry patches"", ""absence of comedones"", ""no pustules or nodules"", ""symmetrical rash pattern""]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions/actinic-cheilitis-sq-cell-lip-6.jpg,True,False,
+rosacea-29.jpg,Acne,"```json
+{
+    ""classification"": ""Papular acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows small red bumps on the skin which are characteristic of papular acne. There are no visible comedones or pus-filled lesions, indicating an inflammatory response often associated with this type of acne."",
+    ""key_features"": [
+        ""small red bumps"",
+        ""inflammation"",
+        ""absence of pus"",
+        ""no visible blackheads or whiteheads""
+    ]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Acne and Rosacea Photos/rosacea-29.jpg,True,False,
+sebaceous-adenoma-5.jpg,Systemic Disease,"{
+    ""classification"": ""Nodular acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows large, inflamed lumps beneath the skin, which are characteristic of nodular acne. These nodules are painful and indicate deeper inflammation, distinguishing them from superficial acne forms."",
+    ""key_features"": [""large painful lumps"", ""inflammation"", ""redness"", ""subcutaneous lesions""]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Systemic Disease/sebaceous-adenoma-5.jpg,True,False,
+tuberous-sclerosis-30.jpg,Systemic Disease,"{
+    ""classification"": ""Comedonal acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows the presence of open and closed comedones, indicating comedonal acne. The skin features appear to have blackheads (open comedones) and a few closed comedones, which are characteristic of this type of acne."",
+    ""key_features"": [
+        ""presence of blackheads"",
+        ""closed comedones"",
+        ""slight redness around the areas"",
+        ""no pustules or cysts"",
+        ""small bumps on the surface""
+    ]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Systemic Disease/tuberous-sclerosis-30.jpg,True,False,
+perioral-dermatitis-119.jpg,Acne,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The observed features include redness and symmetrical patterns around the nose and cheeks. These characteristics are more indicative of a condition like rosacea rather than any form of acne, as there are no evident comedones, pustules, or nodules."",
+    ""key_features"": [""facial redness"", ""small red bumps"", ""symmetrical rash pattern"", ""absence of comedones or pustules""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/test/Acne and Rosacea Photos/perioral-dermatitis-119.jpg,True,False,
+actinic-keratosis-5FU-29.jpg,Actinic Carcinoma,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows facial redness, dryness, and scaling around the mouth, which are indicative of a dermatitis or possibly an eczema condition rather than acne. There are no comedones or pustules present."",
+    ""key_features"": [""facial redness"", ""dry, flaky skin"", ""scaling"", ""no comedonal lesions"", ""symmetrical rash pattern""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions/actinic-keratosis-5FU-29.jpg,True,False,
+erythema-ab-igne-20.jpg,Light Diseases,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows stretch marks (striae), which are a form of skin condition unrelated to acne. There are no comedones, papules, pustules, or other acne-related features visible."",
+    ""key_features"": [""red/purple streaks"", ""linear patterns"", ""no pustules or comedones"", ""smooth skin texture""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Light Diseases and Disorders of Pigmentation/erythema-ab-igne-20.jpg,True,False,
+acne-closed-comedo-32.jpg,Acne,"{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The observed skin condition shows redness and small bumps, but they do not resemble typical acne lesions. The absence of comedones and pus-filled lesions suggests a non-acne condition, possibly dermatitis or rosacea."",
+    ""key_features"": [""redness"", ""small bumps"", ""absence of comedones"", ""skin texture irregularities""]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Acne and Rosacea Photos/acne-closed-comedo-32.jpg,True,False,
+unilateral-telangiectasia-2.jpg,Vascular Tumors,"{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The observed lesions are characterized by redness and small bumps, consistent with a condition such as rosacea rather than acne. There are no noticeable comedones or pus-filled lesions that would indicate acne forms."",
+    ""key_features"": [""facial redness"", ""small red bumps"", ""absence of comedones"", ""symmetric rash pattern""]
+}",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Vascular Tumors/unilateral-telangiectasia-2.jpg,True,False,
+basal-cell-carcinoma-face-3.jpg,Actinic Carcinoma,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The lesion appears to be a raised, irregular growth with crusting and surrounding erythema, which does not fit the patterns of acne types. It may represent a different skin condition, such as a skin lesion or dermatitis."",
+    ""key_features"": [""raised lesion"", ""crusting"", ""surrounding erythema"", ""irregular borders""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions/basal-cell-carcinoma-face-3.jpg,True,False,
+rosacea-nose-11.jpg,Acne,"```json
+{
+    ""classification"": ""Pustular acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows inflamed areas with pus-filled lesions, indicating the presence of pustular acne. The lesions appear red and swollen, typical characteristics of inflammatory acne."",
+    ""key_features"": [""pus-filled pimples"", ""red inflamed skin"", ""bloated nodular formation"", ""presence of small red bumps""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Acne and Rosacea Photos/rosacea-nose-11.jpg,True,False,
+tuberous-sclerosis-15.jpg,Systemic Disease,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows significant facial redness with a rough texture, which is not characteristic of any specific type of acne. The absence of comedones and the pattern of redness suggest a possible skin condition other than acne, such as rosacea or dermatitis."",
+    ""key_features"": [""facial redness"", ""rough texture"", ""absence of comedones"", ""no pustules or nodules""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Systemic Disease/tuberous-sclerosis-15.jpg,True,False,
+Lupus-vulgaris-1.jpg,Cellulitis,"```json
+{
+    ""classification"": ""Not acne"",
+    ""confidence"": ""high"",
+    ""reasoning"": ""The image shows a red, inflamed area on the nose with a thickened texture and possibly ulceration, which is consistent with rosacea or a form of dermatitis rather than acne. There are no visible comedones, pustules, or nodules that are characteristic of acne types."",
+    ""key_features"": [""thickened skin"", ""redness"", ""inflammation"", ""no comedones"", ""possible ulceration""]
+}
+```",/Users/jaspreetl/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Cellulitis Impetigo and other Bacterial Infections/Lupus-vulgaris-1.jpg,True,False,
