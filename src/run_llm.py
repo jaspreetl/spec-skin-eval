@@ -136,7 +136,7 @@ Important:
                 estimated_output_tokens = len(raw_response.split()) * 1.3
                 api_cost_usd = (estimated_input_tokens * 0.15 + estimated_output_tokens * 0.60) / 1000000
                 
-                # Create result dictionary matching Claude format
+                # Create result dictionary matching Claude format exactly
                 result = {
                     "image_id": ground_truth_data.get('image_id', ''),
                     "image_filename": ground_truth_data.get('image_id', ''),
@@ -314,12 +314,12 @@ def main():
     with open("results/gpt_classification_results.json", 'w') as f:
         json.dump(results, f, indent=2)
     
-    # Save simple CSV for compatibility
+    # Save simple CSV for compatibility  
     csv_results = []
     for r in results:
         csv_results.append({
             "image_id": r["image_id"],
-            "true_label": r["ground_truth_label"],
+            "ground_truth_label": r["ground_truth_label"],
             "predicted_label": r["normalized_prediction"],
             "path": r["image_path"],
             "success": r["success"],
@@ -330,7 +330,7 @@ def main():
         })
     
     csv_df = pd.DataFrame(csv_results)
-    csv_df.to_csv("results/predictions.csv", index=False)
+    csv_df.to_csv("results/gpt_predictions.csv", index=False)
     
     # Summary
     print(f"\n" + "=" * 50)

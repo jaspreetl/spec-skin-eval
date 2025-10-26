@@ -20,15 +20,18 @@ def load_csv_results(csv_file):
     results = []
     
     for _, row in df.iterrows():
+        # Handle both old and new CSV formats
+        ground_truth_col = 'ground_truth_label' if 'ground_truth_label' in row else 'true_label'
+        
         # Convert CSV format to analysis format
         success = row['predicted_label'] not in ['ERROR', 'FILE_NOT_FOUND', 'QUOTA_EXCEEDED']
-        is_correct = success and (row['predicted_label'] == row['true_label'])
+        is_correct = success and (row['predicted_label'] == row[ground_truth_col])
         
         result = {
             'image_id': row.get('image_id', ''),
             'image_filename': os.path.basename(row.get('path', '')),
             'image_path': row.get('path', ''),
-            'ground_truth_label': row['true_label'],
+            'ground_truth_label': row[ground_truth_col],
             'predicted_label': row['predicted_label'],
             'is_correct': is_correct,
             'success': success,
@@ -167,9 +170,9 @@ def analyze_results(results):
 def main():
     """Main function to analyze results."""
     parser = argparse.ArgumentParser(description='Analyze GPT classification results')
-    parser.add_argument('--results', default='results/gpt_detailed_results.json',
+    parser.add_argument('--results', default='results/gpt_classification_results.json',
                        help='Path to results JSON file')
-    parser.add_argument('--csv', default='results/predictions.csv',
+    parser.add_argument('--csv', default='results/gpt_predictions.csv',
                        help='Path to CSV results file (fallback)')
     
     args = parser.parse_args()

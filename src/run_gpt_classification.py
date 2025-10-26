@@ -197,8 +197,8 @@ def main():
     
     # Paths
     metadata_csv = "data/metadata.csv"
-    output_file = "results/gpt_classification_results.json"
-    csv_output = "results/gpt_predictions.csv"
+    output_file = "results/new_gpt_classification_results.json"
+    csv_output = "results/new_gpt_predictions.csv"
     
     # Check if metadata file exists
     if not os.path.exists(metadata_csv):
