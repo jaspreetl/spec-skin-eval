@@ -18,7 +18,7 @@ from PIL import Image
 import io
 
 class ClaudeSkinClassifier:
-    def __init__(self, api_key: str, model: str = "claude-sonnet-4-20250514"):
+    def __init__(self, api_key: str, model: str = "claude-sonnet-4-5-20250929"):
         """Initialize the Claude skin classifier."""
         self.client = anthropic.Anthropic(api_key=api_key)
         self.model = model
@@ -358,7 +358,7 @@ def main():
     parser.add_argument('--output', default='claude_classification_results.json', 
                        help='Output JSON file path')
     parser.add_argument('--max-images', type=int, help='Maximum number of images to process (for testing)')
-    parser.add_argument('--model', default='claude-sonnet-4-20250514', 
+    parser.add_argument('--model', default='claude-sonnet-4-5-20250929', 
                        help='Claude model to use')
     
     args = parser.parse_args()

@@ -1,0 +1,38 @@
+[
+  {
+    "image_id": 0,
+    "image_filename": "acne-cystic-118.jpg",
+    "image_path": "/Users/bhavyagopal/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Acne and Rosacea Photos/acne-cystic-118.jpg",
+    "ground_truth_label": "acne",
+    "ground_truth_subtype": "cystic_acne",
+    "model": "google/medgemma-4b-it",
+    "timestamp": "2025-11-22T21:01:55.533089+00:00",
+    "api_response": null,
+    "full_raw_response": null,
+    "normalized_prediction": null,
+    "predicted_subtype": null,
+    "is_correct": false,
+    "processing_time_ms": 14281.3,
+    "api_cost_usd": 0.0,
+    "success": false,
+    "error": "Model generation failed: MPS backend out of memory (MPS allocated: 16.22 GiB, other allocations: 2.00 GiB, max allowed: 18.13 GiB). Tried to allocate 256 bytes on shared pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure)."
+  },
+  {
+    "image_id": 1,
+    "image_filename": "acne-cystic-96.jpg",
+    "image_path": "/Users/bhavyagopal/.cache/kagglehub/datasets/haroonalam16/20-skin-diseases-dataset/versions/1/Dataset/train/Acne and Rosacea Photos/acne-cystic-96.jpg",
+    "ground_truth_label": "acne",
+    "ground_truth_subtype": "cystic_acne",
+    "model": "google/medgemma-4b-it",
+    "timestamp": "2025-11-22T21:01:55.751252+00:00",
+    "api_response": null,
+    "full_raw_response": null,
+    "normalized_prediction": null,
+    "predicted_subtype": null,
+    "is_correct": false,
+    "processing_time_ms": 204.58,
+    "api_cost_usd": 0.0,
+    "success": false,
+    "error": "Model generation failed: MPS backend out of memory (MPS allocated: 16.13 GiB, other allocations: 2.00 GiB, max allowed: 18.13 GiB). Tried to allocate 5.72 MiB on private pool. Use PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 to disable upper limit for memory allocations (may cause system failure)."
+  }
+]

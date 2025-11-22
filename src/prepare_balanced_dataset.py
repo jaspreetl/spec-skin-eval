@@ -345,7 +345,10 @@ def create_balanced_dataset(metadata_path, output_dir="balanced_dataset"):
 
 def main():
     """Main function to create the balanced dataset."""
-    metadata_path = "/Users/bhavyagopal/Desktop/spec-skin-eval/data/metadata.csv"
+    # Use relative path from script location
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    metadata_path = os.path.join(project_root, "data", "metadata.csv")
     
     if not os.path.exists(metadata_path):
         print(f"Error: Metadata file not found at {metadata_path}")

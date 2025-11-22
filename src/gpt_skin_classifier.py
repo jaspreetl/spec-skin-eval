@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script to classify skin conditions using OpenAI GPT-4o API on the balanced dataset.
+Script to classify skin conditions using OpenAI GPT API on the balanced dataset.
 Processes images and generates structured JSON output for evaluation.
 """
 
@@ -18,7 +18,7 @@ from PIL import Image
 import io
 
 class GPTSkinClassifier:
-    def __init__(self, api_key: str, model: str = "gpt-4o-mini"):
+    def __init__(self, api_key: str, model: str = "gpt-5.1"):
         """Initialize the GPT skin classifier."""
         self.client = OpenAI(api_key=api_key)
         self.model = model
@@ -142,9 +142,10 @@ Consider these diagnostic criteria:
             for attempt in range(max_retries):
                 try:
                     # Call OpenAI API
-                    response = self.client.chat.completions.create(
-                        model=self.model,
-                        messages=[
+                    # GPT-5.1 uses max_completion_tokens instead of max_tokens
+                    api_params = {
+                        "model": self.model,
+                        "messages": [
                             {"role": "system", "content": "You are an expert dermatologist AI."},
                             {
                                 "role": "user",
@@ -157,9 +158,16 @@ Consider these diagnostic criteria:
                                 ]
                             }
                         ],
-                        max_tokens=1000,
-                        temperature=0.1,
-                    )
+                        "temperature": 0.1,
+                    }
+                    
+                    # Use max_completion_tokens for GPT-5.1, max_tokens for older models
+                    if "gpt-5" in self.model.lower() or "o5" in self.model.lower():
+                        api_params["max_completion_tokens"] = 1000
+                    else:
+                        api_params["max_tokens"] = 1000
+                    
+                    response = self.client.chat.completions.create(**api_params)
                     
                     processing_time = (time.time() - start_time) * 1000  # Convert to milliseconds
                     
@@ -208,9 +216,10 @@ Consider these diagnostic criteria:
                     
                     is_correct = (normalized_label == ground_truth_label)
                     
-                    # Calculate approximate cost (GPT-4o-mini pricing)
+                    # Calculate approximate cost (GPT-5.1 pricing)
                     # Input: $0.15 per 1M tokens, Output: $0.60 per 1M tokens
                     # Rough estimate for image + text
+                    # Note: Update pricing if GPT-5.1 has different rates
                     estimated_input_tokens = 1000  # Approximate for image + prompt
                     estimated_output_tokens = len(api_response_text.split()) * 1.3  # Rough token estimate
                     api_cost_usd = (estimated_input_tokens * 0.15 + estimated_output_tokens * 0.60) / 1000000
@@ -404,8 +413,8 @@ def main():
     parser.add_argument('--output', default='gpt_classification_results.json', 
                        help='Output JSON file path')
     parser.add_argument('--max-images', type=int, help='Maximum number of images to process (for testing)')
-    parser.add_argument('--model', default='gpt-4o-mini', 
-                       help='OpenAI model to use (gpt-4o-mini, gpt-4o, etc.)')
+    parser.add_argument('--model', default='gpt-5.1', 
+                       help='OpenAI model to use (gpt-5.1, gpt-4o-mini, gpt-4o, etc.)')
     
     args = parser.parse_args()
     
