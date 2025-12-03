@@ -1,2 +1,17 @@
 *.venv
 *.env
+*.ipynb
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+dist/
+build/
+misc/
+analysis_results/claude_final_analysis_report.md
+analysis_results/gpt_final_analysis_report.md
+analysis_results/medgemma_ollama_final_analysis_report.md
+

@@ -180,11 +180,20 @@ def save_detailed_results_to_csv(results, output_file):
     analysis_df.to_csv(output_file, index=False)
     print(f"Detailed results saved to: {output_file}")
 
-def save_analysis_to_markdown(metrics, results, output_file):
+def save_analysis_to_markdown(metrics, results, output_file, model_name="Claude"):
     """Save comprehensive analysis to Markdown file."""
     
+    # Format model name for display
+    display_name = model_name.replace('_', ' ').title()
+    if 'claude' in model_name.lower():
+        display_name = "Claude"
+    elif 'gpt' in model_name.lower():
+        display_name = "GPT"
+    elif 'medgemma' in model_name.lower():
+        display_name = "MedGemma (Ollama)"
+    
     with open(output_file, 'w') as f:
-        f.write("# Claude Skin Classification Analysis Report\n\n")
+        f.write(f"# {display_name} Skin Classification Analysis Report\n\n")
         f.write(f"**Generated on:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
         # Executive Summary
@@ -263,22 +272,84 @@ def save_analysis_to_markdown(metrics, results, output_file):
         
         # Technical Details
         f.write("## Technical Details\n\n")
-        f.write(f"- **Model:** Claude Sonnet 4 (claude-sonnet-4-20250514)\n")
-        f.write(f"- **Processing Time:** Average ~4.6 seconds per image\n")
-        f.write(f"- **Confidence:** 99.7% high confidence predictions\n")
-        f.write(f"- **API Success Rate:** 100%\n\n")
+        
+        # Calculate average processing time
+        df = pd.DataFrame(results)
+        successful_df = df[df['success'] == True]
+        if len(successful_df) > 0 and 'processing_time_ms' in successful_df.columns:
+            avg_time = successful_df['processing_time_ms'].mean() / 1000
+            f.write(f"- **Average Processing Time:** {avg_time:.2f} seconds per image\n")
+        
+        # Get model name from results if available
+        if 'model' in df.columns and len(df[df['model'].notna()]) > 0:
+            model_info = df[df['model'].notna()]['model'].iloc[0]
+            f.write(f"- **Model:** {model_info}\n")
+        
+        # Calculate success rate
+        success_rate = metrics['success_rate'] * 100
+        f.write(f"- **API Success Rate:** {success_rate:.1f}%\n")
+        
+        # Confidence if available
+        if 'api_response' in df.columns:
+            successful_with_response = successful_df[successful_df['api_response'].notna()]
+            if len(successful_with_response) > 0:
+                confidences = successful_with_response['api_response'].apply(
+                    lambda x: x.get('confidence', '') if isinstance(x, dict) else ''
+                )
+                high_conf = (confidences == 'high').sum()
+                if len(confidences) > 0:
+                    high_conf_pct = (high_conf / len(confidences)) * 100
+                    f.write(f"- **High Confidence Predictions:** {high_conf_pct:.1f}%\n")
+        
+        f.write("\n")
     
     print(f"Analysis report saved to: {output_file}")
 
+def get_model_name_from_file(results_file):
+    """Extract model name from results file path."""
+    filename = os.path.basename(results_file)
+    # Remove .json extension and common suffixes
+    model_name = filename.replace('.json', '').replace('_classification_results', '').replace('_results', '')
+    
+    # Map common names
+    if 'claude' in model_name.lower():
+        return 'claude'
+    elif 'gpt' in model_name.lower():
+        return 'gpt'
+    elif 'medgemma' in model_name.lower() or 'ollama' in model_name.lower():
+        return 'medgemma_ollama'
+    else:
+        return model_name
+
 def main():
     """Main function to run analysis and save results."""
-    results_file = "claude_classification_results.json"
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Analyze classification results and save metrics.')
+    parser.add_argument('results_file', nargs='?', default='claude_classification_results.json',
+                       help='Path to classification results JSON file (default: claude_classification_results.json)')
+    parser.add_argument('--output-prefix', default=None,
+                       help='Prefix for output files (default: auto-detect from input filename)')
+    
+    args = parser.parse_args()
+    
+    results_file = args.results_file
     
     if not os.path.exists(results_file):
         print(f"Error: Results file not found at {results_file}")
         return
     
+    # Determine model name and output prefix
+    if args.output_prefix:
+        model_prefix = args.output_prefix
+    else:
+        model_name = get_model_name_from_file(results_file)
+        model_prefix = f"{model_name}_final"
+    
+    print(f"Analyzing results from: {results_file}")
+    print(f"Using output prefix: {model_prefix}")
     print("Loading results and calculating metrics...")
+    
     results = load_results(results_file)
     metrics = calculate_metrics(results)
     
@@ -293,25 +364,25 @@ def main():
     print("\nSaving analysis results...")
     
     # 1. Summary metrics CSV
-    save_metrics_to_csv(metrics, "analysis_results/summary_metrics.csv")
+    save_metrics_to_csv(metrics, f"analysis_results/{model_prefix}_summary_metrics.csv")
     
     # 2. Confusion matrix CSV
-    save_confusion_matrix_to_csv(metrics, "analysis_results/confusion_matrix.csv")
+    save_confusion_matrix_to_csv(metrics, f"analysis_results/{model_prefix}_confusion_matrix.csv")
     
     # 3. Detailed results CSV
-    save_detailed_results_to_csv(results, "analysis_results/detailed_results.csv")
+    save_detailed_results_to_csv(results, f"analysis_results/{model_prefix}_detailed_results.csv")
     
     # 4. Comprehensive markdown report
-    save_analysis_to_markdown(metrics, results, "analysis_results/analysis_report.md")
+    save_analysis_to_markdown(metrics, results, f"analysis_results/{model_prefix}_analysis_report.md", model_prefix)
     
     print("\n" + "="*60)
     print("ANALYSIS COMPLETE!")
     print("="*60)
-    print("Files saved in 'analysis_results/' directory:")
-    print("- summary_metrics.csv: Key performance metrics")
-    print("- confusion_matrix.csv: Confusion matrix data")
-    print("- detailed_results.csv: Individual image results")
-    print("- analysis_report.md: Comprehensive analysis report")
+    print(f"Files saved in 'analysis_results/' directory with prefix '{model_prefix}':")
+    print(f"- {model_prefix}_summary_metrics.csv: Key performance metrics")
+    print(f"- {model_prefix}_confusion_matrix.csv: Confusion matrix data")
+    print(f"- {model_prefix}_detailed_results.csv: Individual image results")
+    print(f"- {model_prefix}_analysis_report.md: Comprehensive analysis report")
     print("\nYou can now view these files in any spreadsheet or markdown viewer!")
 
 if __name__ == "__main__":

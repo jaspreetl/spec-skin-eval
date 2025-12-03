@@ -36,7 +36,15 @@ def main():
     print("  - GPU recommended for faster processing (CUDA/MPS)")
     print("  - ~8GB+ VRAM for the 4B model")
     print("  - MPS (Metal) will be used on Mac if available")
+    print("  - If MPS runs out of memory, try CPU mode or set PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0")
     print("  - transformers, torch, and pillow packages")
+    
+    # Check for MPS memory environment variable
+    if os.getenv('PYTORCH_MPS_HIGH_WATERMARK_RATIO') is None:
+        print("\n💡 Tip: If you encounter MPS memory errors, you can:")
+        print("   1. Use CPU: python src/medgemma_skin_classifier.py --device cpu")
+        print("   2. Increase MPS memory limit: export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0")
+        print("      (Warning: This may cause system instability if memory is exhausted)")
     
     # For testing, you can limit the number of images
     # Default to full run (all 300 images)

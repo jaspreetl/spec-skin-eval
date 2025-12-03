@@ -1,0 +1,22 @@
+Metric,Value
+Total Images,300.0
+Successful Classifications,300.0
+Failed Classifications,0.0
+Success Rate (%),100.0
+Overall Accuracy (%),58.7
+Macro Precision,0.673
+Macro Recall,0.587
+Macro F1-Score,0.528
+Micro Precision,0.587
+Micro Recall,0.587
+Micro F1-Score,0.587
+Sensitivity (Acne Recall) (%),23.3
+Specificity (Non-Acne Recall) (%),94.0
+Acne Precision (%),79.5
+Non-Acne Precision (%),55.1
+Acne F1-Score,0.361
+Non-Acne F1-Score,0.695
+True Positives,35.0
+False Positives,9.0
+True Negatives,141.0
+False Negatives,115.0
