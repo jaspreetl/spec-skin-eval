@@ -1,1 +1,8 @@
-AI has recently been popularized in the dermatology and cosmetics industry as dermatology tools and online services have begun to rely on AI and machine learning to detect skin acne, eczema, cancers, and other conditions. We want to test the bias of AI models with their performance on different skin tones and accuracy of different skin conditions. 
+# Skin Condition Classification Evaluation
+
+A comparative evaluation framework for assessing AI models on dermatological image classification, focusing on acne detection and classification across different skin tones.
+
+## Overview
+
+This project evaluates three AI models (GPT-5.1, Claude Sonnet 4, and MedGemma) on a balanced dataset of 300 skin condition images. The framework provides standardized evaluation metrics and automated reporting for fair model comparison.
+
